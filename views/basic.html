@@ -1,0 +1,95 @@
+<style>
+#plugin_slider_{{_tag}} {
+	position: relative;
+	zoom: 1;
+}
+#plugin_slider_{{_tag}} ul.slider {
+	width: 678px;
+	height: 300px;
+	border: 1px solid #888;
+	overflow: hidden;
+}
+#plugin_slider_{{_tag}} ul.slider li {
+	display: none;
+}
+#plugin_slider_{{_tag}} .num {
+	bottom: 8px;
+	right: 18px;
+	position: absolute;
+}
+#plugin_slider_{{_tag}} .num li {
+	background-color: #888;
+	color: #FFF;
+	cursor: pointer;
+	float: left;
+	font-family: Arial;
+	font-size: 12px;
+	height: 16px;
+	line-height: 16px;
+	margin: 3px 1px;
+	overflow: hidden;
+	text-align: center;
+	width: 16px;
+}
+#plugin_slider_{{_tag}} .num li.numon {
+	line-height: 21px;
+	width: 21px;
+	height: 21px;
+	font-size: 16px;
+	margin: 0 1px;
+	background-color: #A72B23;
+	font-weight: bold;
+}
+/*contentright images gallery area end */
+
+	</style>
+
+<script>
+$(document).ready(function () {
+//=======图片滚动==============
+	var $num = $("#plugin_slider_{{_tag}} .num > li");
+	var imagenum  = $num.length;
+	var index = 0;
+	var imageTimer;
+	var $images = $('.slider li');
+
+	$num.mouseover(function(){
+		index = $(".num li").index(this);
+		showImg(index);
+	}).eq(0).mouseover();
+
+	$('#plugin_slider_{{_tag}}').hover(function(){
+			clearInterval(imageTimer);
+		 },function(){
+			imageTimer = setInterval(function(){
+			index++;
+			if(index==imagenum){index=0;}
+			showImg(index);
+		}, 3000);
+	}).trigger("mouseleave");//
+
+	function showImg(index){
+		$images.hide();
+		$images.eq(index).fadeIn();
+		$num.removeClass("numon").eq(index).addClass("numon");
+	}
+//========图片滚动 完==============
+});
+</script>
+
+
+<div class="plugin_slider_{{_tag}}" >
+	<ul class="slider" >
+		{% for i, img in ipairs(datasource) do %}
+		<li><a href="/{{urlprefix}}/{{img.id}}">
+			<img src="/{{img.path}}" />
+		</a></li>
+		{% end %}
+	</ul>
+	<ul class="num" >
+		{% for i = 1, #datasource do %}
+		<li {% if i==1 then %}class="numon"{% end %}>{{i}}</li>
+		{% end %}
+	</ul>
+</div>
+
