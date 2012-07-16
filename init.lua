@@ -16,8 +16,9 @@ datasource's element shall be the form as follows:
 
 
 {^ slide _tag="xxx",
-	datasource = xxxx,
-	
+datasource = xxxx,
+width = 678,
+height = 300,
 
 ^}
 --]]
